@@ -1,0 +1,81 @@
+version: 2
+# registries:
+#   nuget-org:
+#     type: nuget-feed
+#     url: https://api.nuget.org/v3/index.json
+#   enterprise-library:
+#     type: nuget-feed
+#     url: https://wegmans.pkgs.visualstudio.com/_packaging/EnterpriseLibrary/nuget/v3/index.json
+#     username: dependabot
+#     password: ${{secrets.ENTERPRISE_LIBRARY_ADO_TOKEN}}
+#   terraform-wegmans:
+#     type: terraform-registry
+#     url: https://app.terraform.io
+#     token: ${{secrets.TF_TOKEN_APP_TERRAFORM_IO}}
+
+updates:
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 14
+    groups:
+      GitHub Actions:
+        patterns:
+          - "*"
+
+  # Maintain dependencies for Docker
+  # - package-ecosystem: "docker"
+  #   directories:
+  #     - "/**/*"
+  #   schedule:
+  #     interval: "monthly"
+  #   cooldown:
+  #     default-days: 14
+  #   groups:
+  #     Docker Images:
+  #       patterns:
+  #         - "*"
+
+  # Maintain dependencies for Docker Compose
+  # - package-ecosystem: "docker-compose"
+  #   directories:
+  #     - "/**/*"
+  #   schedule:
+  #     interval: "monthly"
+  #   cooldown:
+  #     default-days: 14
+  #   groups:
+  #     Docker Images:
+  #       patterns:
+  #         - "*"
+
+  # Maintain dependencies for NuGet
+  # - package-ecosystem: "nuget"
+  #   directories:
+  #     - "/**/*"
+  #   registries: "*"
+  #   schedule:
+  #     interval: "monthly"
+  #   cooldown:
+  #     default-days: 14
+  #   groups:
+  #     .NET NuGet Packages:
+  #       patterns:
+  #         - "*"
+
+  # Maintain dependencies for Terraform
+  # - package-ecosystem: "terraform"
+  #   registries: "*"
+  #   directories:
+  #     - "/infra/**/*"
+  #   schedule:
+  #     interval: "monthly"
+  #   cooldown:
+  #     default-days: 14
+  #   groups:
+  #     Terraform Dependencies:
+  #       patterns:
+  #         - "*"

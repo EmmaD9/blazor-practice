@@ -1,0 +1,14 @@
+name: Auto Draft PRs
+
+on:
+  pull_request:
+    types: [opened, reopened]
+
+permissions: {}
+
+jobs:
+  auto-drafter-pr:
+    uses: wegmans/reusable-workflows/.github/workflows/auto-draft-pr.yml@ce5998c1a58605ed938df7c2e33f736eee59be96 # v3.1.3
+    permissions:
+      contents: write # required by the GraphQL convertPullRequestToDraft mutation
+      pull-requests: write

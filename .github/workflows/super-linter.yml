@@ -1,0 +1,25 @@
+name: Super Linter
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  super-linter:
+    uses: wegmans/reusable-workflows/.github/workflows/super-linter.yml@ce5998c1a58605ed938df7c2e33f736eee59be96 # v3.1.3
+    secrets:
+      TF_TOKEN_APP_TERRAFORM_IO: ${{ secrets.TF_TOKEN_APP_TERRAFORM_IO }}
+    permissions:
+      actions: read
+      contents: read
+      id-token: write
+      pull-requests: write
+      security-events: write
+      statuses: write
