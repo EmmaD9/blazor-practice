@@ -14,5 +14,6 @@
     },
     "[yaml]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "dotnet.defaultSolution": "First Blazor App.sln"
 }
