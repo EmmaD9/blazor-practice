@@ -1,0 +1,7 @@
+@page "/security-protocol-test/protected"
+@attribute [Authorize(Policy = "WegmansSecurityProtocol")]
+
+<PageTitle>Protected Security Page</PageTitle>
+
+<h1>Protected Security Page</h1>
+<p>This route is protected by the <code>WegmansSecurityProtocol</code> policy.</p>

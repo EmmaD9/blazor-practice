@@ -1,0 +1,72 @@
+@page "/security-protocol-test"
+@rendermode InteractiveServer
+@inject WegmansTestAuthenticationStateProvider TestProvider
+
+<PageTitle>Wegmans Security Protocol Test</PageTitle>
+
+<h1>Wegmans Security Protocol Test</h1>
+
+<p>
+    This page tests Blazor security behaviors aligned with the Microsoft guidance:
+    <a href="https://learn.microsoft.com/en-us/aspnet/core/blazor/security/webassembly/?view=aspnetcore-10.0" target="_blank" rel="noopener noreferrer">
+        Blazor WebAssembly security
+    </a>.
+</p>
+
+<div class="mb-3 d-flex gap-2">
+    <button class="btn btn-outline-primary" @onclick="SignInAsTeamMember">Sign in as Team Member</button>
+    <button class="btn btn-outline-success" @onclick="SignInAsManager">Sign in as Manager</button>
+    <button class="btn btn-outline-secondary" @onclick="SignOut">Sign out</button>
+</div>
+
+<AuthorizeView>
+    <Authorized Context="authState">
+        <p><strong>Status:</strong> Authenticated</p>
+        <p><strong>User:</strong> @authState.User.Identity?.Name</p>
+        <p><strong>Claims:</strong></p>
+        <ul>
+            @foreach (var claim in authState.User.Claims)
+            {
+                <li><code>@claim.Type</code>: @claim.Value</li>
+            }
+        </ul>
+    </Authorized>
+    <NotAuthorized>
+        <p><strong>Status:</strong> Not authenticated</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView Policy="WegmansSecurityProtocol">
+    <Authorized>
+        <p class="text-success">
+            Policy check passed: <code>WegmansSecurityProtocol</code> (authenticated + required scope).
+        </p>
+    </Authorized>
+    <NotAuthorized>
+        <p class="text-danger">
+            Policy check failed: <code>WegmansSecurityProtocol</code>.
+        </p>
+    </NotAuthorized>
+</AuthorizeView>
+
+<AuthorizeView Roles="Manager">
+    <Authorized>
+        <p class="text-success">Role check passed: Manager access granted.</p>
+    </Authorized>
+    <NotAuthorized>
+        <p class="text-danger">Role check failed: Manager role required.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+<p>
+    Route-level authorization test:
+    <NavLink href="security-protocol-test/protected">open protected page</NavLink>
+</p>
+
+@code {
+    private void SignInAsTeamMember() => TestProvider.SignInAsTeamMember();
+
+    private void SignInAsManager() => TestProvider.SignInAsManager();
+
+    private void SignOut() => TestProvider.SignOut();
+}

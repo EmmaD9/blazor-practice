@@ -1,10 +1,23 @@
 using First_Blazor_App.Components;
+using First_Blazor_App.Components.Security;
+using Microsoft.AspNetCore.Components.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("WegmansSecurityProtocol", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "wegmans.security.test");
+    });
+    options.AddPolicy("WegmansManagersOnly", policy => policy.RequireRole("Manager"));
+});
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddScoped<AuthenticationStateProvider, WegmansTestAuthenticationStateProvider>();
 
 var app = builder.Build();
 
