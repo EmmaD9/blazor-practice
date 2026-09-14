@@ -1,7 +1,43 @@
-﻿@page "/"
+﻿@using Prototype01.Models
+@page "/"
 
-<PageTitle>Home</PageTitle>
+<EditForm Model="@Form" OnValidSubmit="Submit">
 
-<h1>Hello, world!</h1>
+    <label for="name">Name:</label>
+    <InputText id="name" @bind-Value="Form.Field1" />
+    <br />
 
-Welcome to your new app.
+    <label for="email">Email:</label>
+    <InputText id="email" @bind-Value="Form.Field2" />
+    <br />
+
+    <label for="phone">Phone:</label>
+    <InputText id="phone" @bind-Value="Form.Field3" />
+    <br />
+
+    <label for="notes">Notes:</label>
+    <InputText id="notes" @bind-Value="Form.Field4" />
+    <br />
+
+    <button type="submit">Submit</button>
+
+</EditForm>
+
+@code {
+    private FormData Form = new();
+
+    private void Submit()
+    {
+        // Later you'll upload these values to Azure Storage
+        Console.WriteLine($"Field1: {Form.Field1}");
+        //var json = JsonSerializer.Serialize(Form);
+    }
+
+    public class FormData
+    {
+        public string? Field1 { get; set; }
+        public string? Field2 { get; set; }
+        public string? Field3 { get; set; }
+        public string? Field4 { get; set; }
+    }
+}
