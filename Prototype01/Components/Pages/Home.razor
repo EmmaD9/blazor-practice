@@ -1,7 +1,12 @@
 ﻿@using Prototype01.Models
 @page "/"
 
-<EditForm Model="@Form" OnValidSubmit="Submit">
+@using Azure.Storage.Blobs
+@using System.Text.Json
+
+@inject BlobServiceClient BlobServiceClient
+
+<EditForm FormName="contactForm" Model="@Form" OnValidSubmit="Submit">
 
     <label for="name">Name:</label>
     <InputText id="name" @bind-Value="Form.Field1" />
@@ -26,18 +31,33 @@
 @code {
     private FormData Form = new();
 
-    private void Submit()
+    private async Task Submit()
     {
-        // Later you'll upload these values to Azure Storage
-        Console.WriteLine($"Field1: {Form.Field1}");
-        //var json = JsonSerializer.Serialize(Form);
+        var container =
+            BlobServiceClient.GetBlobContainerClient("submissions");
+
+        await container.CreateIfNotExistsAsync();
+
+        var json = JsonSerializer.Serialize(Form);
+
+        var fileName =
+            $"submission-{DateTime.UtcNow:yyyyMMddHHmmss}.json";
+
+        var blob = container.GetBlobClient(fileName);
+
+        using var stream = new MemoryStream(
+            System.Text.Encoding.UTF8.GetBytes(json));
+
+        await blob.UploadAsync(stream);
+
+        Console.WriteLine("Upload successful!");
     }
 
-    public class FormData
+    @* public class FormData
     {
         public string? Field1 { get; set; }
         public string? Field2 { get; set; }
         public string? Field3 { get; set; }
         public string? Field4 { get; set; }
-    }
+    } *@
 }

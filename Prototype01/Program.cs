@@ -1,6 +1,16 @@
 using Prototype01.Components;
+using Azure.Storage.Blobs;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSingleton(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+
+    return new BlobServiceClient(
+        configuration.GetConnectionString("AzureStorage"));
+});
+
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
