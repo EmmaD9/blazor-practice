@@ -6,6 +6,16 @@
 
 @inject BlobServiceClient BlobServiceClient
 
+@* Required *@
+<MudThemeProvider />
+<MudPopoverProvider />
+
+@* Needed for dialogs *@
+<MudDialogProvider />
+
+@* Needed for snackbars *@
+<MudSnackbarProvider />
+
 <EditForm FormName="contactForm" Model="@Form" OnValidSubmit="Submit">
 
     <label for="name">Name:</label>

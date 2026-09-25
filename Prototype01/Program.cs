@@ -1,7 +1,10 @@
 using Prototype01.Components;
 using Azure.Storage.Blobs;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMudServices();
 
 builder.Services.AddSingleton(provider =>
 {
